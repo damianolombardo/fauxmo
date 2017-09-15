@@ -31,7 +31,11 @@ import sys
 import time
 # import urllib
 import uuid
-import RPi.GPIO as GPIO
+
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    import testRPiGPIO as GPIO
 
 # This XML is the minimum needed to define one of our virtual switches
 # to the Amazon Echo
@@ -49,7 +53,7 @@ SETUP_XML = """<?xml version="1.0"?>
 </root>
 """
 
-DEBUG = False
+DEBUG = True
 
 
 def dbg(msg):
@@ -306,7 +310,7 @@ class UPnPBroadcastResponder(object):
             try:
                 self.ssock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, self.mreq)
             except Exception as err:
-                dbg('WARNING: Failed to join multicast group: ' + err.strerror) 
+                dbg('WARNING: Failed to join multicast group: ' + err.strerror)
                 ok = False
 
         except Exception as err:
@@ -372,7 +376,7 @@ class UPnPBroadcastResponder(object):
 #        return r.status_code == 200
 
 class GPIOSwitch(object):
-    def __init__(self, pin_number):
+    def __init__(self, pin_number: int):
         self.pin = pin_number
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
@@ -392,7 +396,7 @@ class GPIOSwitch(object):
 
 
 class GPIOOneShot(object):
-    def __init__(self, pin_number):
+    def __init__(self, pin_number: int):
         self.pin = pin_number
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
@@ -416,7 +420,7 @@ class GPIOOneShot(object):
 
 
 class GPIOAllOff(object):
-    def __init__(self, pin_numbers):
+    def __init__(self, pin_numbers: list):
         self.pins = pin_numbers
 
     def on(self):
@@ -456,20 +460,20 @@ class GPIOReset(object):
 # list will be used.
 
 FAUXMOS = [
-    ['lounge room', GPIOOneShot(14), 58304],
-    ['living room,', GPIOOneShot(15)],
-    ['bed one', GPIOOneShot(18)],
-    ['set cooling', GPIOOneShot(23)],
-    ['set heating', GPIOOneShot(24)],
-    ['increase temp one degree', GPIOOneShot(25)],
-    ['decrease temp one degree', GPIOOneShot(8)],
-    ['set twenty degrees', GPIOOneShot(7)],
-    ['set twenty one degrees', GPIOOneShot(1)],
-    ['set twenty two degrees', GPIOOneShot(12)],
-    ['set twenty three degrees', GPIOOneShot(16)],
-    ['set twenty four degrees', GPIOOneShot(20)],
-    ['system', GPIOAllOff([14, 15, 18])],  # only the pins that go to actual fancoils
-    ['reset toggles', GPIOReset([14, 15, 18, 23, 24, 25, 8, 7, 1, 12, 16, 20])],  # all pins
+    ['lounge room', GPIOOneShot(14), 58301],
+    ['living room,', GPIOOneShot(15), 58302],
+    ['bed one', GPIOOneShot(18), 58303],
+    ['set cooling', GPIOOneShot(23), 58304],
+    ['set heating', GPIOOneShot(24), 58305],
+    ['increase temp one degree', GPIOOneShot(25), 58306],
+    ['decrease temp one degree', GPIOOneShot(8), 58307],
+    ['set twenty degrees', GPIOOneShot(7), 58308],
+    ['set twenty one degrees', GPIOOneShot(1), 58309],
+    ['set twenty two degrees', GPIOOneShot(12), 58310],
+    ['set twenty three degrees', GPIOOneShot(16), 58311],
+    ['set twenty four degrees', GPIOOneShot(20), 58312],
+    ['system', GPIOAllOff([14, 15, 18]), 58313],  # only the pins that go to actual fancoils
+    ['reset toggles', GPIOReset([14, 15, 18, 23, 24, 25, 8, 7, 1, 12, 16, 20]), 58314],  # all pins
 ]
 
 CONFLICTS = [[],
@@ -499,13 +503,16 @@ for one_faux in FAUXMOS:
 dbg("Entering main loop\n")
 
 try:
+    status_led = GPIOSwitch(17)
     while True:
         try:
             # Allow time for a ctrl-c to stop the process
             p.poll(100)
-            GPIOSwitch(17).on()
+            dbg('on')
+            status_led.on()
             time.sleep(0.1)
-            GPIOSwitch(17).off()
+            dbg('off')
+            status_led.off()
         except Exception as e:
             dbg(e)
             break
