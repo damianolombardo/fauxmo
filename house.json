@@ -1,0 +1,129 @@
+{
+    "FAUXMO": {
+        "ip_address": "auto"
+    },
+    "PLUGINS": {
+        "GPIORPiPlugin": {
+            "path": "~/gpiorpiplugin.py",
+            "DEVICES": [
+                {
+                    "port": 58301,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 14,
+                    "mode":"BCM",
+                    "name": "lounge room",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58302,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 15,
+                    "mode":"BCM",
+                    "name": "living room",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58303,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 18,
+                    "mode":"BCM",
+                    "name": "bed one",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58304,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 23,
+                    "mode":"BCM",
+                    "name": "set cooling",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58305,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 24,
+                    "mode":"BCM",
+                    "name": "set heating",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58306,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 25,
+                    "mode":"BCM",
+                    "name": "increase temp one degree",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58307,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 8,
+                    "mode":"BCM",
+                    "name": "decrease temp one degree",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58308,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 7,
+                    "mode":"BCM",
+                    "name": "set twenty degrees",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58309,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 1,
+                    "mode":"BCM",
+                    "name": "set twenty one degrees",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58310,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 12,
+                    "mode":"BCM",
+                    "name": "set twenty two degrees",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58311,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 16,
+                    "mode":"BCM",
+                    "name": "set twenty three degrees",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58312,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": 20,
+                    "mode":"BCM",
+                    "name": "set twenty four degrees",
+                    "switching_type":"oneshot"
+                },
+                {
+                    "port": 58313,
+                    "on_cmd": 1,
+                    "off_cmd": 2,
+                    "pin": [14, 15, 18],
+                    "mode":"LEECH",
+                    "name": "system",
+                    "switching_type":"oneshot"
+                }
+            ]
+        }
+    }
+}
