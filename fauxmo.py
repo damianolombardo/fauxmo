@@ -53,7 +53,7 @@ SETUP_XML = """<?xml version="1.0"?>
 </root>
 """
 
-DEBUG = True
+DEBUG = False
 
 
 def dbg(msg):
@@ -376,7 +376,7 @@ class UPnPBroadcastResponder(object):
 #        return r.status_code == 200
 
 class GPIOSwitch(object):
-    def __init__(self, pin_number: int):
+    def __init__(self, pin_number):
         self.pin = pin_number
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
@@ -396,7 +396,7 @@ class GPIOSwitch(object):
 
 
 class GPIOOneShot(object):
-    def __init__(self, pin_number: int):
+    def __init__(self, pin_number):
         self.pin = pin_number
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
@@ -420,7 +420,7 @@ class GPIOOneShot(object):
 
 
 class GPIOAllOff(object):
-    def __init__(self, pin_numbers: list):
+    def __init__(self, pin_numbers):
         self.pins = pin_numbers
 
     def on(self):
@@ -508,13 +508,13 @@ try:
         try:
             # Allow time for a ctrl-c to stop the process
             p.poll(100)
-            dbg('on')
+            #dbg('on')
             status_led.on()
             time.sleep(0.1)
-            dbg('off')
+            #dbg('off')
             status_led.off()
         except Exception as e:
-            dbg(e)
-            break
+            raise e
+
 finally:
     GPIO.cleanup()
